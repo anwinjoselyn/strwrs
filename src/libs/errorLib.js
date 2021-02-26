@@ -1,6 +1,10 @@
 import * as Sentry from "@sentry/browser";
 
+/* To enable for production
 const isLocal = process.env.NODE_ENV === "development";
+*/
+//Using for local development
+const isLocal = true;
 
 export function initSentry() {
   if (isLocal) {
