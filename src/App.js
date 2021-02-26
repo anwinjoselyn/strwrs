@@ -19,6 +19,10 @@ import { AppContext } from "./libs/contextLib";
 
 //Common error function
 import { onError } from "./libs/errorLib";
+
+//To handle unhandled errors in our containers with a nice error message & while reporting the error to Sentry.
+import ErrorBoundary from "./components/ErrorBoundary";
+
 //CSS files
 import "./App.css";
 
@@ -86,9 +90,13 @@ const App = () => {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
-          <Routes />
-        </AppContext.Provider>
+        <ErrorBoundary>
+          <AppContext.Provider
+            value={{ isAuthenticated, userHasAuthenticated }}
+          >
+            <Routes />
+          </AppContext.Provider>
+        </ErrorBoundary>
       </div>
     )
   );

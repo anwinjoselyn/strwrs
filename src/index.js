@@ -6,6 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { initSentry } from "./libs/errorLib";
+
+initSentry();
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>
