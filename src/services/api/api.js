@@ -17,6 +17,7 @@ API.interceptors.request.use(
     console.log("config", config);
 
     config.url = config.baseUrl + config.url;
+    console.log("config.url", config.url);
     return config;
   },
   error => {

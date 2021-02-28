@@ -7,3 +7,72 @@
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
 }
+
+.Home .ToggleButton .LoaderButton {
+  float: right;
+}
+
+.Home .header .chart-type-div {
+  text-align: center;
+  padding: 1em;
+}
+
+.Home .header .chart-type-div label {
+  margin-right: 1em;
+}
+
+.Home .planets .planets-header {
+  border-bottom: 1px solid #fcfcfc;
+}
+
+.Home .planets .planets-header h2 {
+  padding-left: 0.2em;
+}
+
+.Home .planets .planets-header h2 small {
+  float: right;
+  padding-right: 1em;
+}
+
+.Home .planets .planets-header h2 span svg {
+  font-size: 12px;
+}
+
+.Home .planets .planets-header form {
+  margin: 1em;
+}
+
+.tooltip-inner p {
+  font-size: 14px;
+}
+
+.Planets .card .card-body .card-title.h5 {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #343a40;
+  padding-bottom: 5px;
+}
+
+.Planets .card .card-body .card-subtitle.h6 {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #343a40;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.Planets .card .card-body .row .col {
+  font-size: 16px;
+  padding: 0.5em;
+}
+
+.Planets .card .card-body .row .leftCol {
+  text-align: right;
+}
+
+.Planets .topButtonDiv {
+  text-align: center;
+  padding: 1em;
+}

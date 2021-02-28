@@ -1,48 +1,55 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-//Wrapper to route your our to the required link without refreshing the browser.
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer } from "react-router-bootstrap"; //Wrapper to route your our to the required link without refreshing the browser.
+
+import { FaUserCircle } from "react-icons/fa";
 
 // Import Bootstrap components
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-//Routes wrapper
-import Routes from "./Routes";
+import Routes from "./Routes"; //Routes wrapper
 
 //Functions for login and authentication
-import { loggedIn, logout } from "./services/Auth/Authservice";
+import {
+  loggedIn,
+  logout,
+  checkSuperUser,
+  getProfile
+} from "./services/Auth/Authservice";
 
-//To ensure logged user session is maintained throughout the app
-import { AppContext } from "./libs/contextLib";
+import { AppContext } from "./libs/contextLib"; //To ensure logged user session is maintained throughout the app
 
-//Common error function
-import { onError } from "./libs/errorLib";
+import { onError } from "./libs/errorLib"; //Error handler function
 
-//To handle unhandled errors in our containers with a nice error message & while reporting the error to Sentry.
-import ErrorBoundary from "./components/ErrorBoundary";
+import ErrorBoundary from "./components/ErrorBoundary"; //To handle unhandled errors in our containers with a nice error message & while reporting the error to Sentry.
 
-//CSS files
-import "./App.css";
+import "./App.css"; //A little bit of styling
 
 const App = () => {
-  //Enable history to push to /login (if not logged in) or /home (if logged in)
-  const history = useHistory();
+  const history = useHistory(); //Enable history to push to /login (if not logged in) or /home (if logged in)
 
   //initialize state to handle loading and logged in states
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
 
+  const [profile, setProfile] = useState(null); //To store some user information (like name)
+  const [isSuperUser, setSuperUser] = useState(false); //To understand if user is a Super User
+
   const onLoad = useCallback(async () => {
     try {
-      //find if user is already logged in (or) has a stored token which has not expired
-      let isLoggedIn = await loggedIn();
-      //console.log("isLoggedIn", isLoggedIn);
+      let isLoggedIn = await loggedIn(); //find if user is already logged in (or) has a stored token which has not expired
 
       if (isLoggedIn === true) {
-        //update context that user is logged in
-        userHasAuthenticated(true);
+        const profile = await getProfile(); //Get profile of user
+        if (profile && profile.data) setProfile(profile.data);
+
+        let superUserFlag = await checkSuperUser(); //Check is is a Super User
+        if (superUserFlag) setSuperUser(superUserFlag);
+
+        userHasAuthenticated(true); //update context that user is logged in
       } else {
         //update context that user NOT logged in and push to /login page
         userHasAuthenticated(false);
@@ -50,12 +57,12 @@ const App = () => {
       }
     } catch (e) {
       if (e !== "No current user") {
-        //alert error
+        //alert error via our error handler
         onError(e);
       }
     }
-    //ensure state is not in loading mode anymore
-    setIsAuthenticating(false);
+
+    setIsAuthenticating(false); //ensure state is not in loading mode anymore
   }, [history]);
 
   useEffect(() => {
@@ -63,9 +70,10 @@ const App = () => {
   }, [onLoad]);
 
   const handleLogout = async () => {
-    await logout();
-    userHasAuthenticated(false);
-    history.push("/login");
+    await logout(); //remove token from local storage
+    userHasAuthenticated(false); //update session
+
+    history.push("/login"); //push to login page
   };
 
   return (
@@ -81,7 +89,17 @@ const App = () => {
           <Navbar.Collapse className="justify-content-end">
             <Nav activeKey={window.location.pathname}>
               {isAuthenticated ? (
-                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                <NavDropdown
+                  title={
+                    <>
+                      <FaUserCircle /> {profile.name}
+                    </>
+                  }
+                  id="nav-dropdown"
+                  drop="left"
+                >
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                </NavDropdown>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>Login</Nav.Link>
@@ -92,7 +110,14 @@ const App = () => {
         </Navbar>
         <ErrorBoundary>
           <AppContext.Provider
-            value={{ isAuthenticated, userHasAuthenticated }}
+            value={{
+              isAuthenticated,
+              userHasAuthenticated,
+              isSuperUser,
+              profile,
+              setProfile,
+              setSuperUser
+            }}
           >
             <Routes />
           </AppContext.Provider>

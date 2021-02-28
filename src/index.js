@@ -11,11 +11,9 @@ import { initSentry } from "./libs/errorLib";
 initSentry();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>,
+  <Router>
+    <App />
+  </Router>,
   document.getElementById("root")
 );
 

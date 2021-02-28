@@ -66,6 +66,25 @@ export async function loggedIn() {
   }
 }
 
+export async function checkSuperUser() {
+  // Checks if there is a saved token and it's still valid
+  try {
+    // Getting token from localstorage
+    const token = await getToken();
+    //decoding token
+    let decoded = await jwt.verify(token, secretKey);
+
+    //In a real world app we will not hard code the super user name. This is for this example only.
+    //Return true or false on checking user's name = Luke Skywalker
+    if (decoded && decoded.name && decoded.name === "Luke Skywalker")
+      return true;
+    else return false;
+  } catch (error) {
+    console.log("error", error);
+    return error;
+  }
+}
+
 const isTokenExpired = async token => {
   try {
     if (token) {
@@ -114,32 +133,22 @@ export const logout = async () => {
   await localStorage.removeItem("strwr_token");
 };
 
-export const getProfile = async () => {
+export async function getProfile() {
   // Using jwt-decode npm package to decode the token
 
   try {
-    let token = await this.getToken();
+    let token = await getToken();
     let decoded = await jwt.verify(token, secretKey);
-    //console.log("decoded", decoded);
-    if (decoded) return { token: decoded, authToken: token };
+    console.log("decoded", decoded);
+    if (decoded) return { data: decoded };
     else return null;
   } catch (err) {
     // err
     console.log("error", err);
     return null;
   }
-};
-/*
-  setAuthToken(token) {
-    if (token) {
-      // Apply authorization token to every request if logged in
-      axios.defaults.headers.common["Authorization"] = token;
-    } else {
-      // Delete auth header
-      delete axios.defaults.headers.common["Authorization"];
-    }
-  }
-*/
+}
+
 const generateToken = async (userData, isSuperUser) => {
   try {
     let payload = {

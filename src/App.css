@@ -1,2 +1,19 @@
 .App {
 }
+
+.App .navbar .navbar-collapse .navbar-nav .nav-item a {
+  font-size: 14px;
+  color: #343a40;
+}
+
+.App .navbar .navbar-collapse .navbar-nav .nav-item a svg {
+  margin-bottom: 2px;
+}
+
+.App .navbar .navbar-collapse .navbar-nav .nav-item .dropdown-menu {
+  padding: 0.2em;
+}
+
+.App .navbar .navbar-collapse .navbar-nav .nav-item .dropdown-menu a {
+  padding: 0.2em;
+}

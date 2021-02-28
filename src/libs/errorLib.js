@@ -1,11 +1,12 @@
 import * as Sentry from "@sentry/browser";
 
-/* To enable for production
+/* To enable in production
 const isLocal = process.env.NODE_ENV === "development";
 */
-//Using for local development
-const isLocal = true;
 
+const isLocal = true; //Using for local development
+
+//Sentry initialization
 export function initSentry() {
   if (isLocal) {
     return;
@@ -17,6 +18,7 @@ export function initSentry() {
   });
 }
 
+//for actual push of errors to Sentry
 export function logError(error, errorInfo = null) {
   if (isLocal) {
     return;
@@ -28,6 +30,7 @@ export function logError(error, errorInfo = null) {
   });
 }
 
+//For logging and feedback on errors
 export function onError(error) {
   let errorInfo = {};
   let message = error.toString();
@@ -35,8 +38,11 @@ export function onError(error) {
   // Auth errors
   if (!(error instanceof Error) && error.message) {
     errorInfo = error;
-    message = error.message;
+    message = error.message
+      ? error.message
+      : "Sorry, something went wrong. Please try again!";
     error = new Error(message);
+
     // API errors
   } else if (error.config && error.config.url) {
     errorInfo.url = error.config.url;

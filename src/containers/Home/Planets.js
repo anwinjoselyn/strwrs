@@ -1,21 +1,24 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
-//Reusable Button component
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import LoaderButton from "../../components/LoaderButton/LoaderButton";
 
 import API from "../../services/api/api";
 
 import { onError } from "../../libs/errorLib";
 
+import "./Home.css";
+
 const Planets = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const history = useHistory();
 
   const [planet, setPlanet] = useState(null);
-  const [content, setContent] = useState("");
 
   useEffect(() => {
     function loadPlanet() {
@@ -28,8 +31,9 @@ const Planets = () => {
         console.log("planet", planet);
         const { data } = planet;
         console.log("data", data);
-        setContent(data);
         setPlanet(data);
+
+        setIsLoading(false);
       } catch (e) {
         onError(e);
       }
@@ -40,19 +44,48 @@ const Planets = () => {
 
   return (
     <div className="Planets">
-      <Card>
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-          <LoaderButton block size="lg" variant="info">
-            Go somewhere
-          </LoaderButton>
-        </Card.Body>
-      </Card>
+      {!isLoading && (
+        <Card>
+          <Card.Body>
+            <Card.Title>{planet.name}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              Population:{" "}
+              {!isNaN(parseInt(planet.population))
+                ? parseInt(planet.population).toLocaleString()
+                : planet.population}
+            </Card.Subtitle>
+            <Row>
+              <Col className="leftCol text-muted">Climate </Col>
+              <Col className="text-capitalize">{planet.climate}</Col>
+            </Row>
+            <Row>
+              <Col className="leftCol text-muted">Gravity </Col>
+              <Col className="text-capitalize"> {planet.gravity}</Col>
+            </Row>
+            <Row>
+              <Col className="leftCol text-muted">Terrain </Col>
+              <Col className="text-capitalize"> {planet.terrain}</Col>
+            </Row>
+            <Row>
+              <Col className="leftCol text-muted">Surface Water </Col>
+              <Col className="text-capitalize"> {planet.surface_water}</Col>
+            </Row>
+            <Row>
+              <Col className="leftCol text-muted">Orbital Period </Col>
+              <Col className="text-capitalize"> {planet.orbital_period}</Col>
+            </Row>
+          </Card.Body>
+          <div className="topButtonDiv">
+            <LoaderButton
+              variant="info"
+              style={{ textAlign: "center" }}
+              href="/"
+            >
+              Back to planets
+            </LoaderButton>
+          </div>
+        </Card>
+      )}
     </div>
   );
 };
