@@ -1,8 +1,33 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+//import Account from "./Account";
+import App from "./App";
+//import toJson from "enzyme-to-json";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+it("renders without crashing", () => {
+  shallow(<App />);
 });
+/*
+test("renders app", () => {
+  render(
+    <Router>
+      <App />
+    </Router>
+  );
+});
+
+
+describe("App", () => {
+  test("renders App component", () => {
+    render(
+      <Router>
+        <App />
+      </Router>
+    );
+
+    //screen.getByRole("");
+  });
+});
+*/

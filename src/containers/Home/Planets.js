@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; //to read the "id" of planet from URL
 
+//Bootstrap components
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import LoaderButton from "../../components/LoaderButton/LoaderButton";
+import LoaderButton from "../../components/LoaderButton/LoaderButton"; //Button component
 
-import API from "../../services/api/api";
+import API from "../../services/api/api"; //Our API handler
 
-import { onError } from "../../libs/errorLib";
+import { onError } from "../../libs/errorLib"; //Our error handler
 
-import "./Home.css";
+import "./Home.css"; //A little bit of styling
 
 const Planets = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true); //to ensure component loads after data has been populated
+  const { id } = useParams(); //getting the ID of planet
 
   const [planet, setPlanet] = useState(null);
 
+  //Called on first mount
   useEffect(() => {
     function loadPlanet() {
       return API.get(`/planets/${id}`);
@@ -27,13 +29,12 @@ const Planets = () => {
 
     async function onLoad() {
       try {
+        //Get and store data in state
         const planet = await loadPlanet();
-        console.log("planet", planet);
         const { data } = planet;
-        console.log("data", data);
         setPlanet(data);
 
-        setIsLoading(false);
+        setIsLoading(false); //now we can render data
       } catch (e) {
         onError(e);
       }

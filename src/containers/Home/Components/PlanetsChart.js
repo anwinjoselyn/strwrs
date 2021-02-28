@@ -1,7 +1,9 @@
 import React from "react";
+
+//Get the chart components ready
 import { Bar, Pie, Line } from "react-chartjs-2";
 
-import Form from "react-bootstrap/Form";
+import Form from "react-bootstrap/Form"; //For selecting type of chart
 
 const VerticalBar = ({ chartsData, setChartType, chartType }) => (
   <>

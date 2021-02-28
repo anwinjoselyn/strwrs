@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-import { LinkContainer } from "react-router-bootstrap"; //Wrapper to route your our to the required link without refreshing the browser.
+import { LinkContainer } from "react-router-bootstrap"; //Wrapper to route to the required link without refreshing the browser.
 
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa"; //Icon to display User Name on top navigation bar
 
 // Import Bootstrap components
 import Navbar from "react-bootstrap/Navbar";
@@ -96,7 +96,7 @@ const App = () => {
                     </>
                   }
                   id="nav-dropdown"
-                  drop="left"
+                  drop="down"
                 >
                   <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 </NavDropdown>

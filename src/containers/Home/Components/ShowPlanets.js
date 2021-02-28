@@ -1,15 +1,18 @@
 import React from "react";
 
-import ListGroup from "react-bootstrap/ListGroup";
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer } from "react-router-bootstrap"; //To ensure page does not refresh on clicking links
+
+//Bootstrap components
 import Form from "react-bootstrap/Form";
+import ListGroup from "react-bootstrap/ListGroup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
+//Couple of icons to provide information feedback to user
 import { BsInfoCircle } from "react-icons/bs";
 import { BsQuestionCircle } from "react-icons/bs";
 
-import "../Home.css";
+import "../Home.css"; // A bit of styling
 
 const ShowPlanets = ({
   planets,
@@ -18,7 +21,6 @@ const ShowPlanets = ({
   loadPlanets,
   searchTerm,
   handleSearch,
-  //countdown,
   seconds,
   attempts,
   limit,
@@ -30,6 +32,7 @@ const ShowPlanets = ({
         {planets
           .sort((a, b) => parseInt(b.population) - parseInt(a.population))
           .map(({ name, population, url, terrain, climate }) => {
+            //some simple styling of data
             let itemStyle = parseInt(population)
               ? parseInt(population) <= 200000
                 ? { padding: "5px", variant: null }
@@ -65,9 +68,16 @@ const ShowPlanets = ({
                       : population}
                   </span>
                   <br />
-                  <span>Terrain: {terrain ? terrain : "Unknown"}</span>
                   <br />
-                  <span>Climate: {climate ? climate : "Unknown"}</span>
+                  <span className="text-capitalize">
+                    <span className="text-muted">Terrain: </span>
+                    {terrain ? terrain : "Unknown"}
+                  </span>
+                  <br />
+                  <span className="text-capitalize">
+                    <span className="text-muted">Climate: </span>
+                    {climate ? climate : "Unknown"}
+                  </span>
                 </ListGroup.Item>
               </LinkContainer>
             );

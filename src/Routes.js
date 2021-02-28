@@ -1,8 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-//For simple code splitting
-//Since our current APP is simple not using loadable (or other) library for advanced code splitting
+/****For simple code splitting - Since our current APP is simple not using loadable (or other) library for advanced code splitting*****/
 import asyncComponent from "./components/AsyncComponent";
 
 //Different route types
@@ -10,7 +9,7 @@ import AppliedRoute from "./components/Routes/AppliedRoute";
 import AuthenticatedRoute from "./components/Routes/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/Routes/UnauthenticatedRoute";
 
-//Load required components dynamically and when required
+//Load required components dynamically as and when required
 const AsyncHome = asyncComponent(() => import("./containers/Home/Home"));
 const AsyncLogin = asyncComponent(() => import("./containers/Login/Login"));
 const AsyncPlanets = asyncComponent(() => import("./containers/Home/Planets"));

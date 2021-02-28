@@ -12,8 +12,11 @@
 
 .App .navbar .navbar-collapse .navbar-nav .nav-item .dropdown-menu {
   padding: 0.2em;
+  width: 100%;
 }
 
 .App .navbar .navbar-collapse .navbar-nav .nav-item .dropdown-menu a {
   padding: 0.2em;
+  text-align: center;
+  width: 100%;
 }

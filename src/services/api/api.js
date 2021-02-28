@@ -3,21 +3,12 @@ import axios from "axios";
 const baseUrl = "https://swapi.dev/api";
 
 const API = axios.create({ baseUrl });
-/*
-API.interceptors.request.use(function(config) {
-  console.log("Request sent");
-  return config;
-});
-*/
-// Add a request interceptor
+
+//Request interceptor
 API.interceptors.request.use(
   config => {
-    console.log("Request sent");
-    console.log("config.baseUrl", config.baseUrl);
-    console.log("config", config);
-
     config.url = config.baseUrl + config.url;
-    console.log("config.url", config.url);
+
     return config;
   },
   error => {
@@ -26,17 +17,31 @@ API.interceptors.request.use(
 );
 
 //Add a response interceptor
-
 API.interceptors.response.use(
   response => {
     return response;
   },
   function(error) {
-    const originalRequest = error.config;
-    console.log("originalRequest", originalRequest);
-    console.log("error.response.status", error.response.status);
+    //Normally will use these to write custom returns according to requirement. Showing here as a placeholder for this assignment.
+    if (error.response.status === 400) {
+      return Promise.reject(error);
+    }
     if (error.response.status === 401) {
-      //router.push('/login');
+      return Promise.reject(error);
+    }
+    if (error.response.status === 403) {
+      return Promise.reject(error);
+    }
+    if (error.response.status === 404) {
+      return Promise.reject(error);
+    }
+    if (error.response.status === 500) {
+      return Promise.reject(error);
+    }
+    if (error.response.status === 502) {
+      return Promise.reject(error);
+    }
+    if (error.response.status === 503) {
       return Promise.reject(error);
     }
     return Promise.reject(error);
